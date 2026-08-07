@@ -1,6 +1,12 @@
 @extends('layouts.valena')
 @section('title', 'Messages')
-@section('content')
+@section('content')<div
+        style="background:linear-gradient(135deg,var(--valena-dark) 0%,var(--valena-brown) 100%);padding:3.5rem 0 2rem">
+        <div class="container text-white">
+            <span class="section-eyebrow d-block mb-2">Support</span>
+            <h1 class="mb-0" style="font-family:'Playfair Display',serif;font-size:2.4rem">Messages</h1>
+        </div>
+    </div>
     <div class="container py-5" style="max-width:760px">
         <h2 class="fw-bold mb-4" style="color:var(--valena-brown)">Messages</h2>
 

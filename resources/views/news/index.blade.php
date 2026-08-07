@@ -1,10 +1,16 @@
 @extends('layouts.valena')
 @section('title', 'News')
+@section('nav_news', 'active')
 @section('content')
+    <div style="background:linear-gradient(135deg,var(--valena-dark) 0%,var(--valena-brown) 100%);padding:3.5rem 0 2rem">
+        <div class="container text-white">
+            <span class="section-eyebrow d-block mb-2">Updates</span>
+            <h1 class="mb-0" style="font-family:'Playfair Display',serif;font-size:2.4rem">News &amp; Articles</h1>
+        </div>
+    </div>
     <div class="container py-5">
-        <h2 class="fw-bold mb-4" style="color:var(--valena-brown)">News &amp; Updates</h2>
         @forelse($news as $article)
-            <div class="card mb-4 shadow-sm">
+            <div class="card mb-4 border-0 rounded-4 shadow-sm">
                 <div class="row g-0">
                     @if ($article->image)
                         <div class="col-md-3">

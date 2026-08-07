@@ -1,8 +1,13 @@
 @extends('layouts.valena')
 @section('title', 'Facilities')
 @section('content')
+    <div style="background:linear-gradient(135deg,var(--valena-dark) 0%,var(--valena-brown) 100%);padding:3.5rem 0 2rem">
+        <div class="container text-white">
+            <span class="section-eyebrow d-block mb-2">Campus Life</span>
+            <h1 class="mb-0" style="font-family:'Playfair Display',serif;font-size:2.4rem">Facilities</h1>
+        </div>
+    </div>
     <div class="container py-5">
-        <h2 class="fw-bold mb-4" style="color:var(--valena-brown)">Campus Facilities</h2>
 
         @php
             // Group rows by fac_id so multiple images are shown together as a gallery
