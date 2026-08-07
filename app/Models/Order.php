@@ -11,7 +11,7 @@ class Order extends Model
     protected $primaryKey = 'order_id';
     public $timestamps = false;
 
-    protected $fillable = ['user_id', 'title', 'quantity', 'price', 'status', 'date', 'trans_total', 'proof_file', 'Message'];
+    protected $fillable = ['user_id', 'gcash_payment_id', 'title', 'quantity', 'price', 'status', 'date', 'trans_total', 'proof_file', 'Message'];
 
     protected $casts = [
         'date' => 'datetime',
@@ -20,5 +20,10 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function gcashPayment(): BelongsTo
+    {
+        return $this->belongsTo(GCashPayment::class, 'gcash_payment_id');
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
+use App\Models\GCashPaymentSetting;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +15,15 @@ class CartController extends Controller
 {
     public function index(): View
     {
+        $user = Auth::user();
+
+        if (! $user instanceof User) {
+            abort(403);
+        }
+
         return view('cart.index', [
-            'items' => Auth::user()->cartItems()->get(),
+            'items' => $user->cartItems()->get(),
+            'gcashSetting' => GCashPaymentSetting::query()->first(),
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FacilityController as AdminFacilityController;
+use App\Http\Controllers\Admin\GCashSettingController;
 use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
@@ -58,6 +59,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('tourist-spots', AdminTouristSpotController::class);
     Route::resource('news', AdminNewsController::class);
     Route::resource('users', AdminUserController::class);
+    Route::get('gcash-settings', [GCashSettingController::class, 'edit'])->name('gcash-settings.edit');
+    Route::post('gcash-settings', [GCashSettingController::class, 'update'])->name('gcash-settings.update');
+    Route::patch('orders/{order}/verify-payment', [AdminOrderController::class, 'verifyPayment'])->name('orders.verify-payment');
     Route::resource('orders', AdminOrderController::class);
     Route::resource('messages', AdminMessageController::class);
 });

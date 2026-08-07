@@ -285,6 +285,8 @@
                     class="bi bi-people"></i>Users</a>
             <a class="nav-link @yield('nav_orders')" href="{{ route('admin.orders.index') }}"><i
                     class="bi bi-receipt"></i>Orders</a>
+            <a class="nav-link @yield('nav_gcash_settings')" href="{{ route('admin.gcash-settings.edit') }}"><i
+                    class="bi bi-qr-code-scan"></i>GCash QR</a>
             <a class="nav-link @yield('nav_messages')" href="{{ route('admin.messages.index') }}"><i
                     class="bi bi-chat-dots"></i>Messages</a>
         </nav>

@@ -22,9 +22,10 @@
                                 <th>Qty</th>
                                 <th>Price</th>
                                 <th>Total</th>
+                                <th>GCash Ref</th>
+                                <th>Payment</th>
                                 <th>Status</th>
                                 <th>Date</th>
-                                <th>Proof</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,6 +36,16 @@
                                     <td>{{ $order->quantity }}</td>
                                     <td>₱{{ number_format($order->price, 2) }}</td>
                                     <td>₱{{ number_format($order->trans_total, 2) }}</td>
+                                    <td>{{ $order->gcashPayment?->reference_number ?? '—' }}</td>
+                                    <td>
+                                        @if ($order->gcashPayment?->status === 'received')
+                                            <span class="badge bg-success">Verified</span>
+                                        @elseif($order->gcashPayment?->status === 'rejected')
+                                            <span class="badge bg-danger">Rejected</span>
+                                        @else
+                                            <span class="badge bg-secondary">Pending Verification</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if ($order->status === 'closed')
                                             <span class="badge bg-success">Completed</span>
@@ -45,12 +56,6 @@
                                         @endif
                                     </td>
                                     <td>{{ $order->date->format('M d, Y') }}</td>
-                                    <td>
-                                        @if ($order->proof_file)
-                                            <a href="{{ asset('storage/proofs/' . $order->proof_file) }}" target="_blank"
-                                                class="btn btn-sm btn-outline-secondary"><i class="bi bi-image"></i></a>
-                                        @endif
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

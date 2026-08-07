@@ -14,6 +14,8 @@
                         <th>#</th>
                         <th>Customer</th>
                         <th>Product</th>
+                        <th>GCash Ref</th>
+                        <th>Payment</th>
                         <th>Qty</th>
                         <th>Total</th>
                         <th>Status</th>
@@ -27,6 +29,16 @@
                             <td>{{ $o->order_id }}</td>
                             <td>{{ $o->user?->name ?? '—' }}</td>
                             <td>{{ $o->title }}</td>
+                            <td>{{ $o->gcashPayment?->reference_number ?? '—' }}</td>
+                            <td>
+                                @if ($o->gcashPayment?->status === 'received')
+                                    <span class="badge bg-success">Verified</span>
+                                @elseif($o->gcashPayment?->status === 'rejected')
+                                    <span class="badge bg-danger">Rejected</span>
+                                @else
+                                    <span class="badge bg-secondary">Pending</span>
+                                @endif
+                            </td>
                             <td>{{ $o->quantity }}</td>
                             <td>₱{{ number_format($o->trans_total, 2) }}</td>
                             <td>
@@ -44,7 +56,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center text-muted py-4">No orders yet.</td>
+                            <td colspan="10" class="text-center text-muted py-4">No orders yet.</td>
                         </tr>
                     @endforelse
                 </tbody>

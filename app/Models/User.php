@@ -72,4 +72,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class, 'message_of');
     }
+
+    public function gcashPayments(): HasMany
+    {
+        return $this->hasMany(GCashPayment::class);
+    }
 }
