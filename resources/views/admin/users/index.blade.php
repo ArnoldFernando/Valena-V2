@@ -2,8 +2,11 @@
 @section('title', 'Users')
 @section('nav_users', 'active')
 @section('content')
-    <h5 class="fw-bold mb-3">Customers &amp; Users</h5>
-    <div class="card shadow-sm">
+    <div class="mb-4">
+        <h5 class="fw-bold mb-0">Customers &amp; Users</h5>
+        <p class="text-muted small mb-0">Manage account status and admin access</p>
+    </div>
+    <div class="v-card overflow-hidden">
         <div class="card-body p-0">
             <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">

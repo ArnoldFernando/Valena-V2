@@ -4,8 +4,7 @@
 @section('content')
     <div class="row g-4" style="max-width:860px">
         <div class="col-md-7">
-            <div class="card shadow-sm">
-                <div class="card-body">
+            <div class="v-card"><div class="card-body p-4">
                     <h6 class="fw-bold mb-3">Order Details</h6>
                     <dl class="row mb-0">
                         <dt class="col-sm-4">Order #</dt>
@@ -36,13 +35,12 @@
             @endif
         </div>
         <div class="col-md-5">
-            <div class="card shadow-sm">
-                <div class="card-body">
+            <div class="v-card"><div class="card-body p-4">
                     <h6 class="fw-bold mb-3">Update Status</h6>
                     <form method="POST" action="{{ route('admin.orders.update', $order) }}">
                         @csrf @method('PUT')
                         <div class="mb-3">
-                            <select name="status" class="form-select">
+                            <select name="status" class="form-select rounded-3">
                                 @foreach (['pending', 'processing', 'shipped', 'closed'] as $status)
                                     <option value="{{ $status }}" @selected($order->status === $status)>
                                         {{ ucfirst($status) }}</option>

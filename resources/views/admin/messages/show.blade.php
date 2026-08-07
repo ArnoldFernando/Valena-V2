@@ -21,8 +21,7 @@
             </div>
         @endif
 
-        <div class="card shadow-sm">
-            <div class="card-body">
+        <div class="v-card"><div class="card-body p-4">
                 <h6 class="fw-bold mb-3">{{ $message->reply_message ? 'Update Reply' : 'Reply' }}</h6>
                 <form method="POST" action="{{ route('admin.messages.update', $message) }}">
                     @csrf @method('PUT')
@@ -34,8 +33,8 @@
                         @enderror
                     </div>
                     <div class="d-flex gap-2">
-                        <button class="btn btn-valena">Send Reply</button>
-                        <a href="{{ route('admin.messages.index') }}" class="btn btn-outline-secondary">Back</a>
+                        <button class="btn btn-valena px-4">Send Reply</button>
+                        <a href="{{ route('admin.messages.index') }}" class="btn btn-outline-secondary px-4 rounded-3">Back</a>
                     </div>
                 </form>
             </div>

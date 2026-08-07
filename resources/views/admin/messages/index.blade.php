@@ -2,8 +2,11 @@
 @section('title', 'Messages')
 @section('nav_messages', 'active')
 @section('content')
-    <h5 class="fw-bold mb-3">Customer Messages</h5>
-    <div class="card shadow-sm">
+    <div class="mb-4">
+        <h5 class="fw-bold mb-0">Customer Messages</h5>
+        <p class="text-muted small mb-0">Read and reply to customer support messages</p>
+    </div>
+    <div class="v-card overflow-hidden">
         <div class="card-body p-0">
             <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">

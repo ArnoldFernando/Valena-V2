@@ -2,8 +2,11 @@
 @section('title', 'Orders')
 @section('nav_orders', 'active')
 @section('content')
-    <h5 class="fw-bold mb-3">All Orders</h5>
-    <div class="card shadow-sm">
+    <div class="mb-4">
+        <h5 class="fw-bold mb-0">All Orders</h5>
+        <p class="text-muted small mb-0">View and update customer order statuses</p>
+    </div>
+    <div class="v-card overflow-hidden">
         <div class="card-body p-0">
             <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">

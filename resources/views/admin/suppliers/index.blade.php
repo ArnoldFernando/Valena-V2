@@ -2,12 +2,15 @@
 @section('title', 'Suppliers')
 @section('nav_suppliers', 'active')
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold mb-0">Suppliers</h5>
-        <a href="{{ route('admin.suppliers.create') }}" class="btn btn-sm btn-valena"><i class="bi bi-plus-lg me-1"></i>Add
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="fw-bold mb-0">Suppliers</h5>
+            <p class="text-muted small mb-0">Manage product suppliers</p>
+        </div>
+        <a href="{{ route('admin.suppliers.create') }}" class="btn btn-valena"><i class="bi bi-plus-lg me-1"></i>Add
             Supplier</a>
     </div>
-    <div class="card shadow-sm">
+    <div class="v-card overflow-hidden">
         <div class="card-body p-0">
             <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">
@@ -35,11 +38,11 @@
                             <td>{{ $s->phone }}</td>
                             <td>
                                 <a href="{{ route('admin.suppliers.edit', $s) }}"
-                                    class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                                    class="btn btn-sm btn-outline-secondary rounded-3 me-1">Edit</a>
                                 <form method="POST" action="{{ route('admin.suppliers.destroy', $s) }}" class="d-inline"
                                     onsubmit="return confirm('Delete supplier?')">
                                     @csrf @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-3">Delete</button>
                                 </form>
                             </td>
                         </tr>

@@ -161,6 +161,7 @@
             text-transform: uppercase;
             letter-spacing: .04em;
             color: #6b7280;
+            background: #f9fafb;
         }
 
         .table td {
@@ -168,22 +169,46 @@
             vertical-align: middle;
         }
 
+        .table tbody tr:hover {
+            background: #fdf6ec;
+        }
+
         /* ── Stat cards ── */
         .stat-card {
-            border-radius: 14px;
+            border-radius: 16px;
             border: none;
-            padding: 1.25rem;
+            padding: 1.4rem 1.4rem 1.2rem;
             color: #fff;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .15);
         }
 
         .stat-card .stat-icon {
             position: absolute;
             right: 1rem;
             top: .75rem;
-            font-size: 2.5rem;
-            opacity: .2;
+            font-size: 3rem;
+            opacity: .15;
+        }
+
+        /* ── Form helpers ── */
+        label.form-label {
+            font-size: .82rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: .35rem;
+        }
+
+        .form-control,
+        .form-select {
+            font-size: .9rem;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--v-brown);
+            box-shadow: 0 0 0 3px rgba(92, 45, 14, .12);
         }
 
         /* ── Sidebar mobile toggle ── */

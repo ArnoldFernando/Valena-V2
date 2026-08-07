@@ -4,11 +4,10 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Facilities</h5>
-        <a href="{{ route('admin.facilities.create') }}" class="btn btn-sm btn-valena"><i class="bi bi-plus-lg me-1"></i>Add
+        <a href="{{ route('admin.facilities.create') }}" class="btn btn-valena"><i class="bi bi-plus-lg me-1"></i>Add
             Image</a>
     </div>
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
+    <div class="v-card overflow-hidden"><div class="card-body p-0">
             <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">
                     <tr>
@@ -35,11 +34,11 @@
                             <td>{{ Str::limit($f->intro_description, 60) }}</td>
                             <td>
                                 <a href="{{ route('admin.facilities.edit', $f) }}"
-                                    class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                                    class="btn btn-sm btn-outline-secondary rounded-3 me-1">Edit</a>
                                 <form method="POST" action="{{ route('admin.facilities.destroy', $f) }}" class="d-inline"
                                     onsubmit="return confirm('Delete?')">
                                     @csrf @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-3">Delete</button>
                                 </form>
                             </td>
                         </tr>

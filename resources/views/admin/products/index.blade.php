@@ -2,12 +2,14 @@
 @section('title', 'Products')
 @section('nav_products', 'active')
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold mb-0">Products</h5>
-        <a href="{{ route('admin.products.create') }}" class="btn btn-sm btn-valena"><i class="bi bi-plus-lg me-1"></i>Add
-            Product</a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="fw-bold mb-0">Products</h5>
+            <p class="text-muted small mb-0">Manage your coffee product catalogue</p>
+        </div>
+        <a href="{{ route('admin.products.create') }}" class="btn btn-valena"><i class="bi bi-plus-lg me-1"></i>Add Product</a>
     </div>
-    <div class="card shadow-sm">
+    <div class="v-card overflow-hidden">
         <div class="card-body p-0">
             <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">
@@ -41,11 +43,11 @@
                                 : '<span class="badge bg-light text-muted border">No</span>' !!}</td>
                             <td>
                                 <a href="{{ route('admin.products.edit', $p) }}"
-                                    class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                                    class="btn btn-sm btn-outline-secondary rounded-3 me-1">Edit</a>
                                 <form method="POST" action="{{ route('admin.products.destroy', $p) }}" class="d-inline"
                                     onsubmit="return confirm('Delete this product?')">
                                     @csrf @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-3">Delete</button>
                                 </form>
                             </td>
                         </tr>
