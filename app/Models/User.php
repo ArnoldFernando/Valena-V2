@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -25,7 +26,7 @@ use Illuminate\Support\Str;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'username', 'f_name', 'l_name', 'email', 'phone', 'password', 'address', 'status', 'is_admin'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -50,10 +51,25 @@ class User extends Authenticatable
      */
     public function initials(): string
     {
-        $initials = Str::initials($this->name, true);
+        $initials = Str::initials($this->name ?? trim(($this->f_name ?? '') . ' ' . ($this->l_name ?? '')), true);
 
         return Str::length($initials) > 1
-            ? Str::substr($initials, 0, 1).Str::substr($initials, -1)
+            ? Str::substr($initials, 0, 1) . Str::substr($initials, -1)
             : $initials;
+    }
+
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'message_of');
     }
 }

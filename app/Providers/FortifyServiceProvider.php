@@ -43,10 +43,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     private function configureViews(): void
     {
-        Fortify::loginView(fn () => view('pages::auth.login'));
-        Fortify::verifyEmailView(fn () => view('pages::auth.verify-email'));
-        Fortify::resetPasswordView(fn () => view('pages::auth.reset-password'));
-        Fortify::requestPasswordResetLinkView(fn () => view('pages::auth.forgot-password'));
+        Fortify::loginView(fn() => view('auth.login'));
+        Fortify::verifyEmailView(fn() => view('auth.verify-email'));
+        Fortify::resetPasswordView(fn() => view('auth.reset-password'));
+        Fortify::requestPasswordResetLinkView(fn() => view('auth.forgot-password'));
     }
 
     /**
@@ -59,10 +59,9 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });
-
     }
 }
