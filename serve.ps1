@@ -1,4 +1,4 @@
-Write-Host ""
+﻿Write-Host ""
 Write-Host "  ☕  Valena Dev Server + Public Tunnel" -ForegroundColor Yellow
 Write-Host "  ─────────────────────────────────────" -ForegroundColor DarkGray
 Write-Host ""
@@ -13,22 +13,23 @@ Write-Host "  ✔  Laravel started on http://localhost:8000" -ForegroundColor Gr
 # Give Laravel a moment to boot
 Start-Sleep -Seconds 2
 
-# Start Serveo SSH tunnel and capture the assigned URL
-Write-Host "  ⏳ Opening public tunnel via serveo.net ..." -ForegroundColor Cyan
+# Start ngrok tunnel and capture the assigned URL
+Write-Host "  ⏳ Opening public tunnel via ngrok ..." -ForegroundColor Cyan
 
 $tunnelJob = Start-Job -ScriptBlock {
-    ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R 80:localhost:8000 serveo.net 2>&1
+    ngrok http 8000 2>&1
 }
 
-# Wait for the public URL to appear in the job output
+# Wait for the public URL to appear via ngrok local API
 $publicUrl = $null
 $attempts  = 0
 while (-not $publicUrl -and $attempts -lt 30) {
     Start-Sleep -Seconds 1
-    $output = Receive-Job $tunnelJob -Keep 2>&1 | Out-String
-    if ($output -match 'https://[a-z0-9\-]+\.serveo\.net') {
-        $publicUrl = $matches[0]
-    }
+    try {
+        $api = Invoke-RestMethod -Uri 'http://localhost:4040/api/tunnels' -ErrorAction Stop
+        $https = $api.tunnels | Where-Object { $_.proto -eq 'https' } | Select-Object -First 1
+        if ($https) { $publicUrl = $https.public_url }
+    } catch { }
     $attempts++
 }
 
@@ -63,7 +64,7 @@ try {
             Write-Host "  ⚠  Tunnel dropped. Reconnecting..." -ForegroundColor Yellow
             Remove-Job $tunnelJob -Force
             $tunnelJob = Start-Job -ScriptBlock {
-                ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R 80:localhost:8000 serveo.net 2>&1
+                ngrok http 8000 2>&1
             }
         }
     }
