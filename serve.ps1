@@ -5,6 +5,10 @@ Write-Host ""
 
 Set-Location $PSScriptRoot
 
+# Refresh PATH so ngrok is resolvable
+$env:PATH = [System.Environment]::GetEnvironmentVariable('PATH','Machine') + ';' + [System.Environment]::GetEnvironmentVariable('PATH','User')
+$ngrok = (Get-Command ngrok -ErrorAction Stop).Source
+
 # Start Laravel in the background
 $laravel = Start-Process php -ArgumentList "artisan","serve","--port=8000" -PassThru -WindowStyle Hidden
 
@@ -16,9 +20,7 @@ Start-Sleep -Seconds 2
 # Start ngrok tunnel and capture the assigned URL
 Write-Host "  ⏳ Opening public tunnel via ngrok ..." -ForegroundColor Cyan
 
-$tunnelJob = Start-Job -ScriptBlock {
-    ngrok http 8000 2>&1
-}
+$tunnelJob = Start-Job -ScriptBlock { param($exe); & $exe http 8000 2>&1 } -ArgumentList $ngrok
 
 # Wait for the public URL to appear via ngrok local API
 $publicUrl = $null
@@ -63,9 +65,7 @@ try {
         if ($tunnelJob.State -eq 'Completed' -or $tunnelJob.State -eq 'Failed') {
             Write-Host "  ⚠  Tunnel dropped. Reconnecting..." -ForegroundColor Yellow
             Remove-Job $tunnelJob -Force
-            $tunnelJob = Start-Job -ScriptBlock {
-                ngrok http 8000 2>&1
-            }
+            $tunnelJob = Start-Job -ScriptBlock { param($exe); & $exe http 8000 2>&1 } -ArgumentList $ngrok
         }
     }
 } finally {
