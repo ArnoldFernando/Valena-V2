@@ -2,14 +2,15 @@
 @section('title', 'Messages')
 @section('nav_messages', 'active')
 @section('content')
-    <div class="mb-4">
-        <h5 class="fw-bold mb-0">Customer Messages</h5>
-        <p class="text-muted small mb-0">Read and reply to customer support messages</p>
+    <div style="margin-bottom: 2rem;">
+        <h4 style="font-weight: 700; margin: 0 0 0.25rem 0; color: #1f2937;">Customer Messages</h4>
+        <p style="color: #6b7280; font-size: 0.875rem; margin: 0;">Read and reply to customer support messages</p>
     </div>
-    <div class="v-card overflow-hidden">
-        <div class="card-body p-0">
-            <table class="table table-hover mb-0 align-middle">
-                <thead class="table-light">
+
+    <div class="card overflow-hidden">
+        <div style="padding: 0; overflow-x: auto;">
+            <table class="table" style="margin-bottom: 0;">
+                <thead>
                     <tr>
                         <th>#</th>
                         <th>Customer</th>
@@ -17,31 +18,54 @@
                         <th>Date</th>
                         <th>Read</th>
                         <th>Replied</th>
-                        <th></th>
+                        <th style="text-align: right;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($messages as $m)
-                        <tr @class(['table-warning' => !$m->is_read])>
-                            <td>{{ $m->message_id }}</td>
+                        <tr @class(['unread' => !$m->is_read])>
+                            <td style="font-weight: 500;">{{ $m->message_id }}</td>
                             <td>{{ $m->user?->name ?? '—' }}</td>
-                            <td>{{ Str::limit($m->message, 55) }}</td>
-                            <td class="text-nowrap">{{ $m->message_date->format('M d, Y') }}</td>
-                            <td>{!! $m->is_read
-                                ? '<i class="bi bi-check-circle-fill text-success"></i>'
-                                : '<i class="bi bi-circle text-muted"></i>' !!}</td>
-                            <td>{!! $m->reply_message ? '<i class="bi bi-reply-fill text-primary"></i>' : '—' !!}</td>
-                            <td><a href="{{ route('admin.messages.show', $m) }}"
-                                    class="btn btn-sm btn-outline-secondary">View</a></td>
+                            <td style="font-size: 0.875rem; color: #6b7280;">{{ Str::limit($m->message, 55) }}</td>
+                            <td style="font-size: 0.875rem; color: #6b7280; white-space: nowrap;">
+                                {{ $m->message_date->format('M d, Y') }}</td>
+                            <td>
+                                @if ($m->is_read)
+                                    <i class="bi bi-check-circle-fill" style="color: #10b981; font-size: 1.1rem;"></i>
+                                @else
+                                    <i class="bi bi-circle" style="color: #9ca3af;"></i>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($m->reply_message)
+                                    <i class="bi bi-reply-fill" style="color: var(--v-brown); font-size: 1.1rem;"></i>
+                                @else
+                                    <span style="color: #9ca3af;">—</span>
+                                @endif
+                            </td>
+                            <td style="text-align: right;">
+                                <a href="{{ route('admin.messages.show', $m) }}" class="btn btn-ghost"
+                                    style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">View</a>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-muted py-4">No messages yet.</td>
+                            <td colspan="7" style="text-align: center; color: #9ca3af; padding: 2rem;">No messages yet.
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="mt-3">{{ $messages->links() }}</div>
+
+    <style>
+        tbody tr.unread {
+            background: #fef3c7;
+        }
+    </style>
+
+    <div style="margin-top: 1rem; display: flex; justify-content: center;">
+        {{ $messages->links('pagination::tailwind') }}
+    </div>
 @endsection
