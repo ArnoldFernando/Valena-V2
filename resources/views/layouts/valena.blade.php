@@ -367,7 +367,6 @@
         .home-placeholder i {
             color: var(--valena-placeholder-icon) !important;
         }
-
         /* ── Gallery thumb ── */
         .gallery-thumb {
             cursor: pointer;
