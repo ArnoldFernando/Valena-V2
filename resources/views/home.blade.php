@@ -72,7 +72,7 @@
                                 @if ($product->img)
                                     <img src="{{ asset('storage/images/' . $product->img) }}" alt="{{ $product->title }}">
                                 @else
-                                    <div class="d-flex align-items-center justify-content-center h-100 bg-light"><i
+                                    <div class="d-flex align-items-center justify-content-center h-100 home-placeholder"><i
                                             class="bi bi-cup-hot fs-1 text-muted"></i></div>
                                 @endif
                             </div>
@@ -115,7 +115,7 @@
                                 @if ($fac->image)
                                     <img src="{{ asset('storage/images/' . $fac->image) }}" alt="{{ $fac->name }}">
                                 @else
-                                    <div class="d-flex align-items-center justify-content-center h-100 bg-light"><i
+                                    <div class="d-flex align-items-center justify-content-center h-100 home-placeholder"><i
                                             class="bi bi-building fs-1 text-muted"></i></div>
                                 @endif
                             </div>
@@ -164,7 +164,7 @@
                                     <img src="{{ asset('storage/images/' . $article->image) }}"
                                         alt="{{ $article->name }}">
                                 @else
-                                    <div class="d-flex align-items-center justify-content-center h-100 bg-light"><i
+                                    <div class="d-flex align-items-center justify-content-center h-100 home-placeholder"><i
                                             class="bi bi-newspaper fs-1 text-muted"></i></div>
                                 @endif
                             </div>

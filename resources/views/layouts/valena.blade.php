@@ -31,6 +31,8 @@
             --valena-footer-strong: #ffffff;
             --valena-input-bg: #ffffff;
             --valena-input-text: #1a1a2e;
+            --valena-placeholder-bg: #f3f4f6;
+            --valena-placeholder-icon: #6b7280;
         }
 
         html[data-theme="dark"] {
@@ -46,6 +48,8 @@
             --valena-footer-strong: #f3f4f6;
             --valena-input-bg: #111827;
             --valena-input-text: #e5e7eb;
+            --valena-placeholder-bg: #1f2937;
+            --valena-placeholder-icon: #cbd5e1;
         }
 
         * {
@@ -354,6 +358,14 @@
 
         .home-facilities-section {
             background: var(--valena-cream);
+        }
+
+        .home-placeholder {
+            background: var(--valena-placeholder-bg);
+        }
+
+        .home-placeholder i {
+            color: var(--valena-placeholder-icon) !important;
         }
 
         /* ── Gallery thumb ── */
