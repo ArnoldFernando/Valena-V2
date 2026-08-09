@@ -55,7 +55,7 @@
     </section>
 
     {{-- Featured Products --}}
-    <section class="py-5 py-lg-6" style="background:#fff">
+    <section class="py-5 py-lg-6 bg-body">
         <div class="container">
             <div class="d-flex align-items-end justify-content-between mb-5 flex-wrap gap-3">
                 <div>
@@ -98,7 +98,7 @@
     </section>
 
     {{-- Facilities --}}
-    <section class="py-5 py-lg-6" style="background:var(--valena-cream)">
+    <section class="py-5 py-lg-6 home-facilities-section">
         <div class="container">
             <div class="d-flex align-items-end justify-content-between mb-5 flex-wrap gap-3">
                 <div>
@@ -146,7 +146,7 @@
     </section>
 
     {{-- Latest News --}}
-    <section class="py-5 py-lg-6" style="background:#fff">
+    <section class="py-5 py-lg-6 bg-body">
         <div class="container">
             <div class="d-flex align-items-end justify-content-between mb-5 flex-wrap gap-3">
                 <div>
