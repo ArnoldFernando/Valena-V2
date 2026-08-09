@@ -60,6 +60,12 @@
             padding: 1.2rem 1.2rem 0.6rem;
         }
 
+        .sidebar-section.commerce-section {
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
         #sidebar .nav-link {
             color: #6b7280;
             padding: 0.6rem 1rem;
@@ -94,6 +100,55 @@
 
         #sidebar .nav-link.active i {
             opacity: 1;
+        }
+
+        /* Commerce section enhanced styling */
+        #sidebar .nav-link.commerce-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            margin: 0.4rem 8px;
+            background: transparent;
+            border-radius: 8px;
+            transition: all .2s;
+            position: relative;
+        }
+
+        #sidebar .nav-link.commerce-link i {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            opacity: 1;
+            background: #f3f4f6;
+            color: var(--v-brown);
+            flex-shrink: 0;
+        }
+
+        #sidebar .nav-link.commerce-link:hover {
+            background: #f9fafb;
+            color: var(--v-brown);
+        }
+
+        #sidebar .nav-link.commerce-link:hover i {
+            background: #fef3c7;
+            box-shadow: 0 2px 8px rgba(92, 45, 14, 0.15);
+        }
+
+        #sidebar .nav-link.commerce-link.active {
+            background: linear-gradient(135deg, rgba(92, 45, 14, 0.08) 0%, rgba(92, 45, 14, 0.04) 100%);
+            color: var(--v-brown);
+            font-weight: 600;
+        }
+
+        #sidebar .nav-link.commerce-link.active i {
+            background: var(--v-brown);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(92, 45, 14, 0.25);
         }
 
         #sidebar .sidebar-bottom {
@@ -503,19 +558,19 @@
             </a>
         </nav>
 
-        <div class="sidebar-section">Commerce</div>
+        <div class="sidebar-section commerce-section">Commerce</div>
         <nav>
-            <a class="nav-link @yield('nav_users')" href="{{ route('admin.users.index') }}">
-                <i class="bi bi-people"></i>Users
+            <a class="nav-link commerce-link @yield('nav_users')" href="{{ route('admin.users.index') }}">
+                <i class="bi bi-people"></i><span>Users</span>
             </a>
-            <a class="nav-link @yield('nav_orders')" href="{{ route('admin.orders.index') }}">
-                <i class="bi bi-receipt"></i>Orders
+            <a class="nav-link commerce-link @yield('nav_orders')" href="{{ route('admin.orders.index') }}">
+                <i class="bi bi-receipt"></i><span>Orders</span>
             </a>
-            <a class="nav-link @yield('nav_gcash_settings')" href="{{ route('admin.gcash-settings.edit') }}">
-                <i class="bi bi-qr-code-scan"></i>GCash QR
+            <a class="nav-link commerce-link @yield('nav_gcash_settings')" href="{{ route('admin.gcash-settings.edit') }}">
+                <i class="bi bi-qr-code-scan"></i><span>GCash QR</span>
             </a>
-            <a class="nav-link @yield('nav_messages')" href="{{ route('admin.messages.index') }}">
-                <i class="bi bi-chat-dots"></i>Messages
+            <a class="nav-link commerce-link @yield('nav_messages')" href="{{ route('admin.messages.index') }}">
+                <i class="bi bi-chat-dots"></i><span>Messages</span>
             </a>
         </nav>
 

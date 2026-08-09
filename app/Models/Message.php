@@ -8,20 +8,51 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Message extends Model
 {
     protected $table = 'messages';
+
     protected $primaryKey = 'message_id';
-    public $timestamps = false;
 
-    protected $fillable = ['message_of', 'message', 'message_date', 'is_read', 'reply_message', 'reply_date', 'reply_is_read'];
-
-    protected $casts = [
-        'message_date' => 'datetime',
-        'reply_date' => 'datetime',
-        'is_read' => 'boolean',
-        'reply_is_read' => 'boolean',
+    protected $fillable = [
+        'conversation_id',
+        'sender_id',
+        'body',
+        'read_at',
     ];
 
-    public function user(): BelongsTo
+    protected $casts = [
+        'read_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    public function conversation(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'message_of', 'id');
+        return $this->belongsTo(
+            Conversation::class,
+            'conversation_id',
+            'conversation_id'
+        );
+    }
+
+    public function sender(): BelongsTo
+    {
+        return $this->belongsTo(
+            User::class,
+            'sender_id',
+            'id'
+        );
+    }
+
+    public function isFromAdmin(): bool
+    {
+        return $this->sender->is_admin ?? false;
+    }
+
+    public function markAsRead(): void
+    {
+        if ($this->read_at === null) {
+            $this->update([
+                'read_at' => now(),
+            ]);
+        }
     }
 }

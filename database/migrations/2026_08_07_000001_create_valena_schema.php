@@ -96,6 +96,7 @@ return new class extends Migration
             $table->text('reply_message')->nullable();
             $table->timestamp('reply_date')->nullable();
             $table->boolean('reply_is_read')->default(false);
+            $table->timestamp('read_at')->nullable();
         });
 
         Schema::create('cart', function (Blueprint $table) {

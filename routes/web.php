@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages/{conversation}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages/{conversation}/reply', [MessageController::class, 'reply'])->name('messages.reply');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -63,7 +65,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('gcash-settings', [GCashSettingController::class, 'update'])->name('gcash-settings.update');
     Route::patch('orders/{order}/verify-payment', [AdminOrderController::class, 'verifyPayment'])->name('orders.verify-payment');
     Route::resource('orders', AdminOrderController::class);
-    Route::resource('messages', AdminMessageController::class);
+    Route::resource('messages', AdminMessageController::class)
+        ->parameters(['messages' => 'conversation']);
+    Route::post('messages/{conversation}/reply', [AdminMessageController::class, 'reply'])->name('messages.reply');
 });
 
 require __DIR__ . '/settings.php';

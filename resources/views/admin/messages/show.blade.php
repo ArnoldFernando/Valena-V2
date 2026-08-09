@@ -1,43 +1,107 @@
 @extends('layouts.admin')
-@section('title', 'Message #' . $message->message_id)
+@section('title', 'Conversation #' . $conversation->conversation_id)
 @section('nav_messages', 'active')
 @section('content')
-    <div style="max-width:680px">
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <div class="d-flex justify-content-between mb-1">
-                    <strong>{{ $message->user?->name ?? 'Unknown' }}</strong>
-                    <small class="text-muted">{{ $message->message_date->format('M d, Y g:i A') }}</small>
-                </div>
-                <p class="mb-0">{{ $message->message }}</p>
+    <div style="max-width: 1000px; margin: 0 auto;">
+        <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3 style="font-weight: 700; margin: 0 0 0.5rem 0; color: #1f2937; font-size: 1.5rem;">Conversation with
+                    {{ $conversation->user?->name ?? 'Unknown User' }}</h3>
+                <p style="color: #6b7280; font-size: 0.9rem; margin: 0;">{{ $conversation->user->email }}</p>
+            </div>
+            <a href="{{ route('admin.messages.index') }}" class="btn btn-ghost">Back to Conversations</a>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="card" style="margin-bottom: 2rem; overflow: hidden;">
+            <div
+                style="padding: 2rem; background: #f9fafb; height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem;">
+                @forelse ($conversation->messages as $message)
+                    @if ($message->sender_id === $conversation->user_id)
+                        <!-- Customer Message (Left) -->
+                        <div style="display: flex; justify-content: flex-start;">
+                            <div style="max-width: 70%;">
+                                <div style="display: flex; align-items: flex-end; gap: 0.75rem;">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.875rem; flex-shrink: 0;">
+                                        {{ strtoupper(substr($conversation->user->name, 0, 1)) }}
+                                    </div>
+                                    <div>
+                                        <div
+                                            style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; margin-bottom: 0.5rem; word-wrap: break-word;">
+                                            <p style="margin: 0; color: #374151; font-size: 0.925rem; line-height: 1.5;">
+                                                {{ $message->body }}</p>
+                                        </div>
+                                        <p style="margin: 0; font-size: 0.75rem; color: #9ca3af;">
+                                            {{ $message->created_at->format('M d, Y g:i A') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <!-- Admin Message (Right) -->
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div style="max-width: 70%;">
+                                <div
+                                    style="display: flex; align-items: flex-end; gap: 0.75rem; flex-direction: row-reverse;">
+                                    <div
+                                        style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #5c2d0e 0%, #7a3d14 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.875rem; flex-shrink: 0;">
+                                        A
+                                    </div>
+                                    <div>
+                                        <div
+                                            style="background: linear-gradient(135deg, #fef3c7 0%, #fde047 100%); border-radius: 12px; padding: 1rem; margin-bottom: 0.5rem; word-wrap: break-word;">
+                                            <p style="margin: 0; color: #374151; font-size: 0.925rem; line-height: 1.5;">
+                                                {{ $message->body }}</p>
+                                        </div>
+                                        <p style="margin: 0; font-size: 0.75rem; color: #9ca3af; text-align: right;">
+                                            {{ $message->created_at->format('M d, Y g:i A') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @empty
+                    <div style="text-align: center; padding: 3rem; color: #9ca3af;">
+                        <p>No messages in this conversation yet.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
 
-        @if ($message->reply_message)
-            <div class="card border-primary shadow-sm mb-4">
-                <div class="card-header text-primary bg-primary-subtle fw-semibold small">Your Reply —
-                    {{ $message->reply_date?->format('M d, Y g:i A') }}</div>
-                <div class="card-body">{{ $message->reply_message }}</div>
+        <!-- Reply Form -->
+        <div class="card">
+            <div class="card-header" style="font-size: 1rem; font-weight: 700; color: #1f2937;">
+                <i class="bi bi-chat-left-quote" style="color: var(--v-brown); margin-right: 0.75rem;"></i>Send a Reply
             </div>
-        @endif
-
-        <div class="v-card"><div class="card-body p-4">
-                <h6 class="fw-bold mb-3">{{ $message->reply_message ? 'Update Reply' : 'Reply' }}</h6>
-                <form method="POST" action="{{ route('admin.messages.update', $message) }}">
-                    @csrf @method('PUT')
-                    <div class="mb-3">
-                        <textarea name="reply_message" rows="4" class="form-control @error('reply_message') is-invalid @enderror"
-                            placeholder="Type your reply…">{{ old('reply_message', $message->reply_message) }}</textarea>
-                        @error('reply_message')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-valena px-4">Send Reply</button>
-                        <a href="{{ route('admin.messages.index') }}" class="btn btn-outline-secondary px-4 rounded-3">Back</a>
-                    </div>
-                </form>
-            </div>
+            <form method="POST" action="{{ route('admin.messages.reply', $conversation) }}">
+                @csrf
+                <div style="padding: 2rem;">
+                    <textarea name="body" rows="5"
+                        style="width: 100%; padding: 1rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem; color: #1f2937; font-family: inherit; transition: all 0.2s; resize: vertical;"
+                        placeholder="Type your response here…"
+                        onfocus="this.style.borderColor='#5c2d0e'; this.style.boxShadow='0 0 0 3px rgba(92, 45, 14, 0.1)';"
+                        onblur="this.style.borderColor='#d1d5db'; this.style.boxShadow='none';">{{ old('body') }}</textarea>
+                    @error('body')
+                        <div style="color: #dc2626; font-size: 0.875rem; margin-top: 0.5rem;">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div
+                    style="padding: 2rem; border-top: 1px solid #e5e7eb; display: flex; gap: 1rem; justify-content: flex-end;">
+                    <a href="{{ route('admin.messages.index') }}" class="btn btn-ghost">Back</a>
+                    <button type="submit" class="btn btn-primary">Send Reply</button>
+                </div>
+            </form>
         </div>
     </div>
+
+    <script>
+        // Auto-scroll to bottom
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.querySelector('[style*="height: 500px"]');
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        });
+    </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,30 +13,102 @@ class MessageController extends Controller
 {
     public function index(): View
     {
+        $conversations = Conversation::with([
+            'user',
+            'latestMessage.sender',
+        ])
+            ->orderByDesc('last_message_at')
+            ->paginate(25);
+
         return view('admin.messages.index', [
-            'messages' => Message::with('user')->orderByDesc('message_date')->paginate(25),
+            'conversations' => $conversations,
         ]);
     }
 
-    public function show(Message $message): View
+    public function show(Conversation $conversation): View
     {
-        $message->update(['is_read' => true]);
+        // Explicitly load the conversation owner and messages.
+        $conversation->load([
+            'user',
+            'messages.sender',
+        ]);
 
-        return view('admin.messages.show', ['message' => $message->load('user')]);
+        // Make sure the conversation actually has a user.
+        if (!$conversation->user) {
+            abort(
+                500,
+                "Conversation {$conversation->conversation_id} has no valid user."
+            );
+        }
+
+        // Mark messages from users as read.
+        // Don't mark admin's own messages as read.
+        $conversation->messages()
+            ->whereNull('read_at')
+            ->where('sender_id', '!=', auth()->id())
+            ->update([
+                'read_at' => now(),
+            ]);
+
+        // Refresh the conversation after updating messages.
+        $conversation->load([
+            'user',
+            'messages.sender',
+        ]);
+
+        return view('admin.messages.show', [
+            'conversation' => $conversation,
+        ]);
     }
 
-    public function update(Request $request, Message $message): RedirectResponse
-    {
-        $request->validate([
-            'reply_message' => ['required', 'string', 'max:2000'],
+    public function reply(
+        Request $request,
+        Conversation $conversation
+    ): RedirectResponse {
+        $validated = $request->validate([
+            'body' => ['required', 'string', 'max:2000'],
         ]);
+
+        Message::create([
+            'conversation_id' => $conversation->conversation_id,
+            'sender_id' => auth()->id(),
+            'body' => $validated['body'],
+        ]);
+
+        $conversation->update([
+            'last_message_at' => now(),
+        ]);
+
+        return back()->with('success', 'Reply sent!');
+    }
+
+    public function update(
+        Request $request,
+        Conversation $conversation
+    ): RedirectResponse {
+        $validated = $request->validate([
+            'body' => ['required', 'string', 'max:2000'],
+        ]);
+
+        $message = $conversation->messages()
+            ->where('sender_id', auth()->id())
+            ->latest('created_at')
+            ->firstOrFail();
 
         $message->update([
-            'reply_message' => $request->input('reply_message'),
-            'reply_date'    => now(),
-            'is_read'       => true,
+            'body' => $validated['body'],
         ]);
 
-        return back()->with('success', 'Reply sent.');
+        return back()->with('success', 'Message updated!');
+    }
+
+    public function destroy(
+        Conversation $conversation
+    ): RedirectResponse {
+        $conversation->delete();
+
+        return redirect()
+            ->route('admin.messages.index')
+            ->with('success', 'Conversation deleted!');
     }
 }
