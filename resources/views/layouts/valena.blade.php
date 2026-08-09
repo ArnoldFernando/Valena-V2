@@ -39,6 +39,7 @@
             --valena-surface: #171a21;
             --valena-surface-text: #e5e7eb;
             --valena-muted: #9ca3af;
+            --valena-cream: #151922;
             --valena-border-soft: rgba(255, 255, 255, .12);
             --valena-footer-bg: #090b0f;
             --valena-footer-text: rgba(229, 231, 235, .75);
@@ -321,6 +322,10 @@
             color: var(--valena-muted) !important;
         }
 
+        html[data-theme="dark"] .text-dark {
+            color: var(--valena-body-text) !important;
+        }
+
         html[data-theme="dark"] .text-white {
             color: var(--valena-footer-strong) !important;
         }
@@ -345,6 +350,10 @@
         html[data-theme="dark"] .table {
             background: var(--valena-surface);
             color: var(--valena-surface-text);
+        }
+
+        .home-facilities-section {
+            background: var(--valena-cream);
         }
 
         /* ── Gallery thumb ── */
