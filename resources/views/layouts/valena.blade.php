@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -20,6 +20,31 @@
             --valena-gold-light: #f0c878;
             --valena-cream: #fdf6ec;
             --valena-dark: #1a0a02;
+            --valena-body-bg: #fafafa;
+            --valena-body-text: #1a1a2e;
+            --valena-surface: #ffffff;
+            --valena-surface-text: #1a1a2e;
+            --valena-muted: #6b7280;
+            --valena-border-soft: rgba(0, 0, 0, .08);
+            --valena-footer-bg: #1a0a02;
+            --valena-footer-text: rgba(255, 255, 255, .7);
+            --valena-footer-strong: #ffffff;
+            --valena-input-bg: #ffffff;
+            --valena-input-text: #1a1a2e;
+        }
+
+        html[data-theme="dark"] {
+            --valena-body-bg: #0f1115;
+            --valena-body-text: #e5e7eb;
+            --valena-surface: #171a21;
+            --valena-surface-text: #e5e7eb;
+            --valena-muted: #9ca3af;
+            --valena-border-soft: rgba(255, 255, 255, .12);
+            --valena-footer-bg: #090b0f;
+            --valena-footer-text: rgba(229, 231, 235, .75);
+            --valena-footer-strong: #f3f4f6;
+            --valena-input-bg: #111827;
+            --valena-input-text: #e5e7eb;
         }
 
         * {
@@ -28,8 +53,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #fafafa;
-            color: #1a1a2e;
+            background: var(--valena-body-bg);
+            color: var(--valena-body-text);
+            transition: background-color .2s ease, color .2s ease;
         }
 
         h1,
@@ -147,6 +173,8 @@
         .v-card {
             border: none;
             border-radius: 16px;
+            background: var(--valena-surface);
+            color: var(--valena-surface-text);
             box-shadow: 0 2px 16px rgba(0, 0, 0, .07);
             overflow: hidden;
             transition: transform .25s, box-shadow .25s;
@@ -185,7 +213,7 @@
         .section-title {
             font-family: 'Playfair Display', serif;
             font-size: clamp(1.7rem, 4vw, 2.4rem);
-            color: var(--valena-dark);
+            color: var(--valena-surface-text);
             line-height: 1.2;
         }
 
@@ -223,8 +251,8 @@
 
         /* ── Footer ── */
         footer {
-            background: var(--valena-dark);
-            color: rgba(255, 255, 255, .7);
+            background: var(--valena-footer-bg);
+            color: var(--valena-footer-text);
             border-top: 3px solid var(--valena-gold);
         }
 
@@ -249,6 +277,74 @@
             position: absolute;
             inset: 0;
             background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .theme-toggle-btn {
+            border: 1.5px solid rgba(255, 255, 255, .35);
+            color: #fff !important;
+            border-radius: 8px;
+            font-size: .85rem;
+            padding: .35rem .9rem;
+            transition: all .2s;
+            min-width: 104px;
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, .12);
+            border-color: rgba(255, 255, 255, .7);
+        }
+
+        .theme-toggle-btn:focus-visible {
+            box-shadow: 0 0 0 .2rem rgba(212, 168, 83, .35);
+        }
+
+        html[data-theme="dark"] .dropdown-menu {
+            background: var(--valena-surface);
+            color: var(--valena-surface-text);
+            border: 1px solid var(--valena-border-soft);
+        }
+
+        html[data-theme="dark"] .dropdown-item {
+            color: var(--valena-surface-text);
+        }
+
+        html[data-theme="dark"] .dropdown-item:hover,
+        html[data-theme="dark"] .dropdown-item:focus {
+            background: rgba(255, 255, 255, .08);
+        }
+
+        html[data-theme="dark"] .dropdown-divider {
+            border-color: var(--valena-border-soft);
+        }
+
+        html[data-theme="dark"] .text-muted {
+            color: var(--valena-muted) !important;
+        }
+
+        html[data-theme="dark"] .text-white {
+            color: var(--valena-footer-strong) !important;
+        }
+
+        html[data-theme="dark"] .form-control,
+        html[data-theme="dark"] .form-select {
+            background-color: var(--valena-input-bg);
+            border-color: var(--valena-border-soft);
+            color: var(--valena-input-text);
+        }
+
+        html[data-theme="dark"] .form-control:focus,
+        html[data-theme="dark"] .form-select:focus {
+            background-color: var(--valena-input-bg);
+            color: var(--valena-input-text);
+            border-color: var(--valena-gold);
+            box-shadow: 0 0 0 .2rem rgba(212, 168, 83, .25);
+        }
+
+        html[data-theme="dark"] .card,
+        html[data-theme="dark"] .modal-content,
+        html[data-theme="dark"] .table {
+            background: var(--valena-surface);
+            color: var(--valena-surface-text);
         }
 
         /* ── Gallery thumb ── */
@@ -294,6 +390,13 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav align-items-lg-center gap-2 mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <button class="theme-toggle-btn btn d-inline-flex align-items-center justify-content-center gap-1"
+                            id="themeToggleButton" type="button" aria-label="Toggle color theme">
+                            <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+                            <span id="themeToggleLabel">Dark</span>
+                        </button>
+                    </li>
                     @auth
                         <li class="nav-item">
                             <a class="btn-nav-outline btn" href="{{ route('cart.index') }}">
@@ -402,6 +505,41 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        (() => {
+            const storageKey = 'valena-theme';
+            const root = document.documentElement;
+            const button = document.getElementById('themeToggleButton');
+            const label = document.getElementById('themeToggleLabel');
+            const icon = document.getElementById('themeToggleIcon');
+
+            const getSystemTheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+            const updateThemeToggleUI = (theme) => {
+                const nextTheme = theme === 'dark' ? 'light' : 'dark';
+                label.textContent = nextTheme === 'dark' ? 'Dark' : 'Light';
+                icon.className = nextTheme === 'dark' ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
+                button.setAttribute('aria-label', `Switch to ${nextTheme} mode`);
+            };
+
+            const applyTheme = (theme) => {
+                root.setAttribute('data-theme', theme);
+                updateThemeToggleUI(theme);
+            };
+
+            const storedTheme = localStorage.getItem(storageKey);
+            const initialTheme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : getSystemTheme();
+            applyTheme(initialTheme);
+
+            if (button) {
+                button.addEventListener('click', () => {
+                    const currentTheme = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+                    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    localStorage.setItem(storageKey, nextTheme);
+                    applyTheme(nextTheme);
+                });
+            }
+        })();
+
         // Add scrolled class to navbar for shadow effect
         window.addEventListener('scroll', () => {
             document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
